@@ -24,7 +24,7 @@ export const replyFunctions = functions
     const postDatas = {
       messages: [
         {
-          text: `${userMessage}!!`,
+          text: `${userMessage}`,
           type: 'text',
         },
       ],
