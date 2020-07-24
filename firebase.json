@@ -1,5 +1,16 @@
 {
   "functions": {
-    "predeploy": "npm --prefix functions run build"
+    "predeploy": "npm --prefix functions run build",
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "./",
+    "rewrites": [
+      {
+        "source": "/webhook",
+        "function": "reply"
+      }
+    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }

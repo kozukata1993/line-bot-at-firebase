@@ -1,0 +1,8 @@
+{
+  "name": "firebase-line-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/kozukata1993/line-bot-at-firebase.git",
+  "author": "kento <kozukata1993@gmail.com>",
+  "license": "MIT"
+}
