@@ -19,3 +19,5 @@ export const webhook = functions.region('asia-northeast1').https.onRequest(async
 
   console.log('------------- FINISH -------------');
 });
+
+export { pushMessage } from './push';

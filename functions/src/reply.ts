@@ -9,7 +9,7 @@ export const reply = async (req: functions.https.Request, res: functions.Respons
   const userMessage =
     events[0].message.type === 'text' ? events[0].message.text : events[0].message.type;
 
-  const postDatas = {
+  const postData = {
     messages: [
       {
         text: `${userMessage} from Firebase`,
@@ -19,8 +19,9 @@ export const reply = async (req: functions.https.Request, res: functions.Respons
     replyToken,
   };
 
-  await axios.post('/reply', postDatas).catch((error) => {
-    res.status(200).end();
+  await axios.post('/reply', postData).catch((error) => {
+    console.log('------------- ERROR in reply -------------');
+    res.status(500).end();
     console.log(error);
   });
   res.status(200).end();
