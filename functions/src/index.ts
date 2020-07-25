@@ -1,44 +1,40 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 import * as line from '@line/bot-sdk';
-import * as axiosBase from 'axios';
+import { reply } from './reply';
+import { createUser } from './createUser';
+
+admin.initializeApp();
 
 // const channelSecret = functions.config().service.secret;
-const channelAccessToken = functions.config().service.accesstoken;
+const eventHandlers = {
+  message: reply,
+  follow: createUser,
+  unfollow: async (req: functions.https.Request, res: functions.Response) =>
+    console.log('unfollow'),
+  join: async (req: functions.https.Request, res: functions.Response) => console.log('join'),
+  leave: async (req: functions.https.Request, res: functions.Response) => console.log('leave'),
+  memberJoined: async (req: functions.https.Request, res: functions.Response) =>
+    console.log('memberJoined'),
+  memberLeft: async (req: functions.https.Request, res: functions.Response) =>
+    console.log('memberLeft'),
+  postback: async (req: functions.https.Request, res: functions.Response) =>
+    console.log('postback'),
+  beacon: async (req: functions.https.Request, res: functions.Response) => console.log('beacon'),
+  accountLink: async (req: functions.https.Request, res: functions.Response) =>
+    console.log('accountLink'),
+  things: async (req: functions.https.Request, res: functions.Response) => console.log('things'),
+};
 
-export const replyFunctions = functions
-  .region('asia-northeast1')
-  .https.onRequest(async (req, res) => {
-    console.log('------------- START -------------');
-    const events = req.body.events as line.MessageEvent[];
+export const webhook = functions.region('asia-northeast1').https.onRequest(async (req, res) => {
+  console.log('------------- START -------------');
 
-    const replyToken = events[0].replyToken;
-    const userMessage =
-      events[0].message.type === 'text' ? events[0].message.text : events[0].message.type;
-    const url = 'https://api.line.me/v2/bot/message/reply';
+  const eventTypes = req.body.events.map(
+    (event: line.WebhookEvent) => event.type,
+  ) as line.WebhookEvent['type'][];
 
-    const headers = {
-      Authorization: `Bearer ${channelAccessToken}`,
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
+  console.log(`------------- ${eventTypes[0]} -------------`);
+  await eventHandlers[eventTypes[0]](req, res);
 
-    const postDatas = {
-      messages: [
-        {
-          text: `${userMessage}`,
-          type: 'text',
-        },
-      ],
-      replyToken,
-    };
-
-    const axios = axiosBase.default.create({
-      baseURL: url,
-      headers,
-    });
-
-    await axios.post('/', postDatas).catch((error) => {
-      res.status(200).end();
-      console.log(error);
-    });
-    res.status(200).end();
-  });
+  console.log('------------- FINISH -------------');
+});
