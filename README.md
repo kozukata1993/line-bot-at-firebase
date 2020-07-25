@@ -1,1 +1,1 @@
-# Firebase + TypeScript + Express で作ったLINE bot
+# Firebase + TypeScript で作った LINE bot
