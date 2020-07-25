@@ -9,7 +9,9 @@ export const createUser = async (req: functions.https.Request, res: functions.Re
     .collection('users')
     .add({ uid: events[0].source.userId, createdAt: admin.firestore.FieldValue.serverTimestamp() })
     .catch((error) => {
+      console.log('------------- ERROR in createUser -------------');
       console.log(error);
+      res.status(500).end();
     });
   res.status(200).end();
 };
