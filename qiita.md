@@ -16,7 +16,7 @@ $ firebase init functions
 
 ```
 $ firebase init functions
-$ yarn add @line/bot-sdk express
+$ yarn add @line/bot-sdk
 $ yarn add eslint --dev
 $ yarn eslint --init
 ```

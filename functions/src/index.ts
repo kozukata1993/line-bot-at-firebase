@@ -21,3 +21,4 @@ export const webhook = functions.region('asia-northeast1').https.onRequest(async
 });
 
 export { pushMessage } from './push';
+export { httpForecast, forecast } from './forecast';
