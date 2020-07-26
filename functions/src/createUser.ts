@@ -1,8 +1,8 @@
-import * as functions from 'firebase-functions';
 import * as line from '@line/bot-sdk';
 import * as admin from 'firebase-admin';
+import { EventHandler } from './eventHandlers';
 
-export const createUser = async (req: functions.https.Request, res: functions.Response) => {
+export const createUser: EventHandler = async (req, res) => {
   const events = req.body.events as line.FollowEvent[];
   await admin
     .firestore()
