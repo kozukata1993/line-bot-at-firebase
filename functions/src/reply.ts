@@ -1,8 +1,8 @@
-import * as functions from 'firebase-functions';
 import * as line from '@line/bot-sdk';
 import { axios } from './axios';
+import { EventHandler } from './eventHandlers';
 
-export const reply = async (req: functions.https.Request, res: functions.Response) => {
+export const reply: EventHandler = async (req, res) => {
   const events = req.body.events as line.MessageEvent[];
 
   const replyToken = events[0].replyToken;

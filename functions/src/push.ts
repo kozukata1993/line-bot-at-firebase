@@ -1,13 +1,13 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { axios } from './axios';
+import { EventHandler } from './eventHandlers';
 
-export const pushMessage = functions
+export const pushMessage: EventHandler = functions
   .region('asia-northeast1')
-  .pubsub.schedule('0 */2 * * *')
+  .pubsub.schedule('30 06 * * *')
   .timeZone('Asia/Tokyo')
   .onRun(async (context) => {
-    console.log('This will be run every 30 minutes');
     const snapshot = await admin.firestore().collection('users').get();
     snapshot.forEach(async (doc) => {
       const postData = {
