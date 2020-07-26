@@ -5,8 +5,6 @@ import { eventHandlers } from './eventHandlers';
 
 admin.initializeApp();
 
-// const channelSecret = functions.config().service.secret;
-
 export const webhook = functions.region('asia-northeast1').https.onRequest(async (req, res) => {
   console.log('------------- START -------------');
 
