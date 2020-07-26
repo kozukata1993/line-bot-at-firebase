@@ -12,7 +12,7 @@ export const reply: EventHandler = async (req, res) => {
   const postData = {
     messages: [
       {
-        text: `${userMessage} from Firebase`,
+        text: `${userMessage}`,
         type: 'text',
       },
     ],

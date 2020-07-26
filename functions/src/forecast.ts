@@ -17,7 +17,6 @@ export const forecast = functions
       console.log(error);
     });
 
-    console.log('------------- forecast -------------');
     if (res) {
       await admin
         .firestore()
@@ -28,37 +27,7 @@ export const forecast = functions
           date: admin.firestore.FieldValue.serverTimestamp(),
           summary: res.data.hourly.summary,
           temperatureMax: res.data.daily.data[0].temperatureMax,
-          temperatureLow: res.data.daily.data[0].temperatureMin,
+          temperatureMin: res.data.daily.data[0].temperatureMin,
         });
     }
-  });
-
-export const httpForecast = functions
-  .region('asia-northeast1')
-  .https.onRequest(async (req, res) => {
-    const latitude = '35.41';
-    const longitude = '139.45';
-    const queryParams = '?lang=ja&units=si&exclude=currently,minutely,alerts,flags';
-    const url = `${functions.config().darksky.url}${latitude},${longitude}${queryParams}`;
-
-    const result = await axios.default.get(url).catch((error) => {
-      console.log(error);
-      res.status(500).end();
-    });
-
-    console.log('------------- forecast -------------');
-    if (result) {
-      await admin
-        .firestore()
-        .collection('forecasts')
-        .doc(dayjs(new Date()).format('YYYYMMDD'))
-        .collection('tokyo')
-        .add({
-          date: admin.firestore.FieldValue.serverTimestamp(),
-          summary: result.data.hourly.summary,
-          temperatureMax: result.data.daily.data[0].temperatureMax,
-          temperatureLow: result.data.daily.data[0].temperatureMin,
-        });
-    }
-    res.status(200).end();
   });

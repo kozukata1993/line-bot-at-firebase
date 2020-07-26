@@ -20,5 +20,6 @@ export const webhook = functions.region('asia-northeast1').https.onRequest(async
   console.log('------------- FINISH -------------');
 });
 
+// スケジュール実行されるFunctions
 export { pushMessage } from './push';
-export { httpForecast, forecast } from './forecast';
+export { forecast } from './forecast';
