@@ -1,5 +1,5 @@
 import * as line from '@line/bot-sdk';
-import { axios } from './axios';
+import { axios } from './utils/axios';
 import { EventHandler } from './eventHandlers';
 
 export const reply: EventHandler = async (req, res) => {
@@ -12,7 +12,7 @@ export const reply: EventHandler = async (req, res) => {
   const postData = {
     messages: [
       {
-        text: `${userMessage} from Firebase`,
+        text: `${userMessage}`,
         type: 'text',
       },
     ],
